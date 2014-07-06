@@ -90,6 +90,7 @@ You can also use a custom resolver by implementing
 ````php
 $resolver = new AcmeCommandHandlerResolver();
 $commandBus->setResolver($resolver);
+````
 
 ###Dependency Injection in Handlers
 For handlers with external dependencies, Admiral supports the use of Dependency
