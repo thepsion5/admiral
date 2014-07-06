@@ -41,4 +41,15 @@ class CommandHandlerResolverTest extends TestCase
         $handler = $this->resolver->toHandler($this->command);
         $this->assertInstanceOf('Thepsion5\\Admiral\\Testing\\Stubs\\OtherStubCommandHandler', $handler);;
     }
+
+    /** @test */
+    public function it_sets_and_retrieves_a_dependency_injection_container()
+    {
+        $container = new StubContainer;
+        $this->resolver->setContainer($container);
+
+        $retrievedContainer = $this->resolver->getContainer();
+
+        $this->assertTrue($container === $retrievedContainer);
+    }
 }

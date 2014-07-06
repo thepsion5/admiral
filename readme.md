@@ -1,5 +1,7 @@
 #Admiral
-
+[![Build Status](https://travis-ci.org/thepsion5/admiral.svg?branch=master)](https://travis-ci.org/thepsion5/admiral)
+[![Coverage Status](https://coveralls.io/repos/thepsion5/admiral/badge.png?branch=master)](https://coveralls.io/r/thepsion5/admiral?branch=master)
+A simple but flexible PHP implementation of the Command Bus pattern.
 ##Installation
 Add the package to your composer.json file:
 ````json
