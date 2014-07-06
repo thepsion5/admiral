@@ -1,0 +1,33 @@
+{
+    "name": "thepsion5/admiral",
+    "description": "Simple PHP Command Bus Implementation",
+    "type": "library",
+    "keywords": ["php", "command bus", "commands", "domain-driven design"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sean Mumford",
+            "email": "sean.mumford@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/container": "4.2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Thepsion5\\Admiral\\": "src/",
+            "Thepsion5\\Admiral\\Testing\\": "tests/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Thepsion5\\Admiral\\Testing\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable"
+}
