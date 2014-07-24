@@ -96,7 +96,7 @@ $commandBus->setResolver($resolver);
 
 ###Dependency Injection in Handlers
 For handlers with external dependencies, Admiral supports the use of Dependency
-Injection using `illuminate/container`, the DI container that powers the
+Injection using `illuminate/container`, the DI Container that powers the
 Laravel framework. It can be accessed via the `getContainer()` method
 on the command handler:
 
@@ -108,17 +108,60 @@ The container implements `Thepsion5\Admiral\Container\ContainerInterface`.
 Bindings can be configured like so:
 
 ````php
-$container->bind('Acme\Domain\Albums\AlbumRepositoryInterface', '\Acme\Infrastructure\Albums\DbAlbumRepository');
+$container->bind(
+    'Acme\Domain\Albums\AlbumRepositoryInterface',
+    '\Acme\Infrastructure\Albums\DbAlbumRepository'
+);
 //returns an instance of DbAlbumRepository
 $repository = $container->make('Acme\Domain\Albums\AlbumRepositoryInterface');
 ````
 
 ###Using Other DI Containers
 
-You can use a customDI Container by creating an adapter that implements
+You can use a custom DI Container by creating an adapter that implements
 `ContainerInterface`:
 ````php
 $commandBus->getResolver()->setContainer(new SymfonyDiContainer);
 ````
 
+##Access Control
+
+Additional ACL functionality can be added to the Command Bus to provide fine-grained control
+over who is capable of executing commands, without having to add that functionality to the
+command handlers.
+
+To use this feature, we need to use two additional components:
+
+1. An `AccessControlCommandBus` instance
+2. An `AccessPolicy` class
+
+###Creating the Command Bus and Access Policy Class
+
+The `AccessControlCommandBus` can be instantiated using the factory:
+````php
+$commandBus = \Thepsion5\Admiral\CommandBusFactory::makeAccessControlCommandBus();
+````
+This instance works no differently than the standard command bus but allows for the use of
+an Access Policy Class. The method used to resolve it is similar to that used to resolve
+the command handler. For example `CreateAlbumCommand` would look for a `CreateAlbumAccessPolicy`
+in the same namespace.
+
+Here's an example Access Policy class:
+````php
+class CreateAlbumAccessPolicy implements \Thepsion5\Admiral\AccessControl\AccessPolicyInterface
+{
+    public function assess(CommandInterface $command)
+    {
+        if(!Auth::user()) {
+            throw new AccessControlException("You must be logged in to create an album.");
+        } elseif(!Auth::user()->owns($command->artistId)) {
+            throw new AccessControlException("You can only create Album for an artist you own.");
+        }
+    }
+}
+````
+
+If no matching class is found, it will be ignored and the handler class will be called normally.
+
 ##Todo
+* More documentation on Access Control
