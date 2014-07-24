@@ -3,7 +3,7 @@ namespace Thepsion5\Admiral;
 
 use Thepsion5\Admiral\Resolver\CommandHandlerResolverInterface;
 
-class CommandBus
+class CommandBus implements CommandBusInterface
 {
     /**
      * @var CommandHandlerResolverInterface
@@ -15,6 +15,10 @@ class CommandBus
         $this->setResolver($resolver);
     }
 
+    /**
+     * @param CommandInterface $command
+     * @return mixed
+     */
     public function execute(CommandInterface $command)
     {
         $handler = $this->resolver->toHandler($command);
@@ -29,9 +33,14 @@ class CommandBus
         return $this->resolver;
     }
 
+    /**
+     * @param CommandHandlerResolverInterface $resolver
+     * @return $this
+     */
     public function setResolver(CommandHandlerResolverInterface $resolver)
     {
         $this->resolver = $resolver;
+        return $this;
     }
 
 }
