@@ -8,6 +8,12 @@ use Illuminate\Container\Container,
 
 class CommandBusFactory
 {
+    /**
+     * Creates a new CommandBus instance, using a non-default DI Container if specified
+     *
+     * @param ContainerInterface|null $container
+     * @return CommandBus
+     */
     public static function makeCommandBus(ContainerInterface $container = null)
     {
         $container = ($container) ?: self::makeContainer();
@@ -15,6 +21,11 @@ class CommandBusFactory
         return new CommandBus($resolver);
     }
 
+    /**
+     * Creates the default DI Container implementation
+     * 
+     * @return IlluminateContainer
+     */
     public static function makeContainer()
     {
         return new IlluminateContainer(new Container);
