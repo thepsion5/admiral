@@ -5,9 +5,15 @@ use Thepsion5\Admiral\Container\ContainerInterface;
 
 class StubContainer implements ContainerInterface
 {
+    /**
+     * @var array
+     */
+    public $classes = [];
+
     public function make($class, array $params = array())
     {
-        return new $class($params);
+        $this->classes[$class] = new $class($params);
+        return $this->classes[$class];
     }
 
     public function bind($abstract, $concrete)
@@ -18,5 +24,10 @@ class StubContainer implements ContainerInterface
     public function bindSingleton($abstract, $concrete)
     {
         throw new \LogicException('Not implemented in stub class.');
+    }
+
+    public function canBeInstantiated($abstract)
+    {
+        return true;
     }
 }

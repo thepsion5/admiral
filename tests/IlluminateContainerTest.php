@@ -54,4 +54,23 @@ class IlluminateContainerTest extends TestCase
     {
         $this->container->make('Thepsion5\\Admiral\\CommandHandlerInterface');
     }
+
+    /**
+     * @test
+     */
+    public function it_checks_if_it_can_instantiate_a_class()
+    {
+
+        $binding = 'Thepsion5\\Admiral\\CommandHandlerInterface';
+        $handlerClass = 'Thepsion5\\Admiral\\Testing\\Stubs\\StubCommandHandler';
+        $this->container->bind($binding, $handlerClass);
+
+        $validClass = $this->container->canBeInstantiated('Thepsion5\\Admiral\\CommandBus');
+        $validBoundClass = $this->container->canBeInstantiated($binding);
+        $invalidClass = $this->container->canBeInstantiated('Thepsion5\\Admiral\\HulkHogan');
+
+        $this->assertTrue($validClass);
+        $this->assertTrue($validBoundClass);
+        $this->assertFalse($invalidClass);
+    }
 }

@@ -31,4 +31,12 @@ interface ContainerInterface
      * @return mixed
      */
     public function bindSingleton($abstract, $concrete);
+
+    /**
+     * Returns true if the container can resolve the specified class, false otherwise
+     *
+     * @param string $abstract
+     * @return bool
+     */
+    public function canBeInstantiated($abstract);
 }

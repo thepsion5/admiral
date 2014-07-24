@@ -54,4 +54,14 @@ class IlluminateContainer implements ContainerInterface
         $this->container->singleton($abstract, $singleton);
     }
 
+    /**
+     * Returns true if the container can resolve the specified class, false otherwise
+     *
+     * @param string $abstract
+     * @return bool
+     */
+    public function canBeInstantiated($abstract)
+    {
+        return class_exists($abstract) || $this->container->bound($abstract);
+    }
 }
