@@ -6,11 +6,11 @@ use Thepsion5\Admiral\CommandHandlerInterface,
 
 class StubCommandHandler implements CommandHandlerInterface
 {
-    public $handled = array();
+    public $handled = [];
 
     public function handle(CommandInterface $command)
     {
-        $handled[] = get_class($command);
+        $this->handled[] = get_class($command);
         return $this;
     }
 }

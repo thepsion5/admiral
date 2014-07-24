@@ -12,8 +12,13 @@ class StubContainer implements ContainerInterface
 
     public function make($class, array $params = array())
     {
-        $this->classes[$class] = new $class($params);
-        return $this->classes[$class];
+        if(class_exists($class)) {
+            $this->classes[$class] = new $class($params);
+            $class = $this->classes[$class];
+        } else {
+            $class = null;
+        }
+        return $class;
     }
 
     public function bind($abstract, $concrete)
@@ -28,6 +33,6 @@ class StubContainer implements ContainerInterface
 
     public function canBeInstantiated($abstract)
     {
-        return true;
+        return class_exists($abstract);
     }
 }
